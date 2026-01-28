@@ -1,0 +1,85 @@
+# Project Checklist: Simple Marketplace Web App
+
+## Objective
+Build a full-stack marketplace application where users can register, log in, list items for sale, and browse items.
+
+## Technical Stack
+- [ ] **Backend:** .NET Web API
+- [ ] **Database:** Entity Framework Core with SQLite or SQL Server Express
+- [ ] **Frontend:** Vanilla JavaScript, HTML, CSS
+- [ ] **Authentication:** JWT (JSON Web Token) based
+
+---
+
+## Backend API Checklist
+
+### User Management
+- [ ] **Endpoint:** `POST /api/users/register`
+    - [ ] Accepts `username`, `email`, `password`.
+    - [ ] Hashes the password securely (e.g., BCrypt).
+    - [ ] Creates a new user in the database.
+    - [ ] Returns the new user object (without password hash).
+- [ ] **Endpoint:** `POST /api/users/login`
+    - [ ] Accepts `email`, `password`.
+    - [ ] Verifies credentials against the database.
+    - [ ] Generates and returns a JWT on success.
+
+### Product Management
+- [ ] **Endpoint:** `GET /api/products`
+    - [ ] Publicly accessible.
+    - [ ] Returns a JSON array of all products.
+- [ ] **Endpoint:** `GET /api/products/{id}`
+    - [ ] Publicly accessible.
+    - [ ] Returns a single product object by its ID.
+- [ ] **Endpoint:** `POST /api/products`
+    - [ ] Protected (requires JWT authentication).
+    - [ ] Accepts `name`, `description`, `price`.
+    - [ ] Associates the new product with the logged-in user.
+    - [ ] Returns the newly created product object.
+- [ ] **Endpoint:** `PUT /api/products/{id}`
+    - [ ] Protected (requires JWT authentication).
+    - [ ] Verifies that the logged-in user is the owner of the product.
+    - [ ] Updates the product's `name`, `description`, or `price`.
+    - [ ] Returns the updated product object.
+- [ ] **Endpoint:** `DELETE /api/products/{id}`
+    - [ ] Protected (requires JWT authentication).
+    - [ ] Verifies that the logged-in user is the owner of the product.
+    - [ ] Deletes the product from the database.
+    - [ ] Returns a 204 No Content success status.
+
+---
+
+## Frontend Checklist
+
+### Core Pages
+- [ ] **File:** `index.html` (Home Page)
+    - [ ] Fetches and displays all products from the API.
+    - [ ] Provides navigation links.
+    - [ ] Navigation dynamically changes based on login status (Login/Register vs. My Products/Logout).
+- [ ] **File:** `login.html`
+    - [ ] Contains a login form (email, password).
+    - [ ] On successful login, saves JWT to `localStorage`.
+    - [ ] Redirects to `my-products.html` after login.
+- [ ] **File:** `register.html`
+    - [ ] Contains a registration form (username, email, password).
+    - [ ] Redirects to `login.html` after successful registration.
+
+### Product Interaction Pages
+- [ ] **File:** `products.html` or similar (Product Detail Page)
+    - [ ] Can be a single page that uses URL parameters (e.g., `products.html?id=123`).
+    - [ ] Fetches and displays details for one specific product.
+- [ ] **File:** `my-products.html` (User-specific page)
+    - [ ] Accessible only if a JWT is present in `localStorage`.
+    - [ ] Displays only the products owned by the logged-in user.
+    - [ ] Includes a form to create a new product.
+    - [ ] Each product in the list has an "Edit" button.
+    - [ ] Each product in the list has a "Delete" button that works as expected.
+
+---
+
+## Final Deliverables
+- [ ] **File:** `README.md`
+    - [ ] Includes setup instructions for the database.
+    - [ ] Includes instructions on how to run the backend.
+    - [ ] Includes instructions on how to open/run the frontend.
+- [ ] **Code Quality:** All code is clean, organized, and readable.
