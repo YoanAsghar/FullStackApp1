@@ -1,6 +1,12 @@
 @FullStackApp_HostAddress = http://localhost:5045
 
-GET {{FullStackApp_HostAddress}}/weatherforecast/
+POST {{FullStackApp_HostAddress}}/users/newuser
 Accept: application/json
+{
+    "username": "usuarioDePrueba",
+    "email": "prueba@ejemplo.com",
+    "hashedPassword": "MiContraseñaSegura123",
+    "registrationDate": "2026-01-29"
+}
 
 ###

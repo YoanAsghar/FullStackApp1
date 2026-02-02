@@ -14,11 +14,11 @@ Build a full-stack marketplace application where users can register, log in, lis
 ## Backend API Checklist
 
 ### User Management
-- [ ] **Endpoint:** `POST /api/users/register`
-    - [ ] Accepts `username`, `email`, `password`.
-    - [ ] Hashes the password securely (e.g., BCrypt).
-    - [ ] Creates a new user in the database.
-    - [ ] Returns the new user object (without password hash).
+- [X] **Endpoint:** `POST /api/users/register`
+    - [X] Accepts `username`, `email`, `password`.
+    - [X] Hashes the password securely (e.g., BCrypt).
+    - [X] Creates a new user in the database.
+    - [X] Returns the new user object (without password hash).
 - [ ] **Endpoint:** `POST /api/users/login`
     - [ ] Accepts `email`, `password`.
     - [ ] Verifies credentials against the database.

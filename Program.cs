@@ -1,16 +1,27 @@
 using Routes;
+using Data;
+using Entities;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+});
 
 var app = builder.Build();
 
 //
 // App endpoints 
 //
+
+app.MapGet("/", () =>
+{
+    return "Hello world";
+});
 
 ProductEndpoints.Map(app);
 UserEndpoints.Map(app);
@@ -20,6 +31,7 @@ UserEndpoints.Map(app);
 //
 
 app.UseHttpsRedirection();
+
 
 
 app.Run();
