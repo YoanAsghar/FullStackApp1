@@ -1,26 +1,26 @@
-using Microsoft.EntityFrameworkCore;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 
 namespace Routes
 {
-    public static class UserEndpoints
+    public class UserEndpoints : ControllerBase
     {
 
         public static void Map(WebApplication app)
         {
-
+            var AuthGroup = app.MapGroup("/api/auth");
             var PasswordHasher = new PasswordHasher<User>();
 
             //Register endpoint 
-            app.MapPost("/api/users/register", async ([FromBody] User newUser, DataContext db) =>
+            AuthGroup.MapPost("/register", async ([FromBody] User newUser, DataContext db) =>
             {
                 try
                 {
                     //Check all the data is provided
-                    if (newUser.Username == null || newUser.Email == null || newUser.Password == null)
+                    if (newUser == null)
                     {
                         return Results.Conflict("Provide all the data for the registration");
                     }
@@ -34,19 +34,20 @@ namespace Routes
                     }
 
                     newUser.Register_date = DateOnly.FromDateTime(DateTime.UtcNow);
-                    newUser.Password = PasswordHasher.HashPassword(newUser, newUser.Password);
+
+                    // Ensure the plain-text password is not null or empty before hashing
+                    if (string.IsNullOrEmpty(newUser.passwordHash))
+                    {
+                        return Results.BadRequest("Password cannot be empty.");
+                    }
+
+                    newUser.passwordHash = PasswordHasher.HashPassword(newUser, newUser.passwordHash);
 
                     db.users.Add(newUser);
                     await db.SaveChangesAsync();
 
-                    var userResponse = new
-                    {
-                        Id = newUser.Id,
-                        Username = newUser.Username,
-                        Email = newUser.Email
-                    };
 
-                    return Results.Created($"/api/users/{newUser.Id}", userResponse);
+                    return Results.Created($"/api/users/{newUser.Id}", newUser);
                 }
                 catch (Exception ex)
                 {
@@ -56,11 +57,11 @@ namespace Routes
 
 
             //Login endpoint
-            app.MapPost("/api/users/login", async ([FromBody] User user, DataContext db) =>
+            AuthGroup.MapPost("/login", async ([FromBody] User user, DataContext db) =>
             {
                 try
                 {
-                    if (user.Email == null || user.Password == null || user.Username == null)
+                    if (user.Email == null || user.passwordHash == null || user.Username == null)
                     {
                         return Results.Unauthorized();
                     }
@@ -71,12 +72,11 @@ namespace Routes
                         return Results.Unauthorized();
                     }
 
-                    var isPasswordCorrect = PasswordHasher.VerifyHashedPassword(UserFromDb, UserFromDb.Password, user.Password);
+                    var isPasswordCorrect = PasswordHasher.VerifyHashedPassword(UserFromDb, UserFromDb.passwordHash, user.passwordHash);
                     if (isPasswordCorrect != PasswordVerificationResult.Success)
                     {
                         return Results.Unauthorized();
                     }
-                    
 
                     return Results.Ok();
                 }
@@ -85,7 +85,7 @@ namespace Routes
                     return Results.Conflict($"Error ocurred login {ex}");
                 }
 
-            });
+            }).RequireAuthorization();
         }
     }
 }

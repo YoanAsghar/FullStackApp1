@@ -1,0 +1,20 @@
+### Create a New User
+POST http://localhost:5045/api/users/register
+Content-Type: application/json
+
+{
+    "username": "Andres",
+    "email": "andrescarepez@gmail.com",
+    "password": "asdasdasdasd"
+}
+
+### Login user
+POST http://localhost:5045/api/users/login
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IllvYW4iLCJzdWIiOiJZb2FuIiwianRpIjoiM2M1YTQ2ZGIiLCJhdWQiOlsiaHR0cDovL2xvY2FsaG9zdDo1MDQ1IiwiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAzNyJdLCJuYmYiOjE3NzEwOTYzMzQsImV4cCI6MTc3ODc4NTkzNCwiaWF0IjoxNzcxMDk2MzM1LCJpc3MiOiJkb3RuZXQtdXNlci1qd3RzIn0.4hAbqIuDMzznsg1eu-sdmSsUyo5GtK7n4BULUgwddn4
+
+{
+    "username": "Pablo",
+    "email": "nots@gmail.com",
+    "password": "nots"
+}
