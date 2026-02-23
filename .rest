@@ -1,20 +1,54 @@
 ### Create a New User
-POST http://localhost:5045/api/users/register
+POST http://localhost:5045/api/auth/register
 Content-Type: application/json
 
 {
-    "username": "Andres",
-    "email": "andrescarepez@gmail.com",
-    "password": "asdasdasdasd"
+    "username": "yoanxl",
+    "email": "yoanxl31@gmail.com",
+    "passwordHash": "yqp1rr0d"
 }
 
 ### Login user
-POST http://localhost:5045/api/users/login
+POST http://localhost:5045/api/auth/login
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IllvYW4iLCJzdWIiOiJZb2FuIiwianRpIjoiM2M1YTQ2ZGIiLCJhdWQiOlsiaHR0cDovL2xvY2FsaG9zdDo1MDQ1IiwiaHR0cHM6Ly9sb2NhbGhvc3Q6NzAzNyJdLCJuYmYiOjE3NzEwOTYzMzQsImV4cCI6MTc3ODc4NTkzNCwiaWF0IjoxNzcxMDk2MzM1LCJpc3MiOiJkb3RuZXQtdXNlci1qd3RzIn0.4hAbqIuDMzznsg1eu-sdmSsUyo5GtK7n4BULUgwddn4
 
 {
-    "username": "Pablo",
-    "email": "nots@gmail.com",
-    "password": "nots"
+    "username": "yoanxl",
+    "email": "yoanxl31@gmail.com",
+    "passwordHash": "yqp1rr0d"  
 }
+
+### GET ALL PRODUCTS
+GET http://localhost:5045/api/products
+
+### GET ONE PRODUCT BY ID
+GET http://localhost:5045/api/products/1
+
+### CREATE ONE PRODUCT BY ID
+POST http://localhost:5045/api/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwiZW1haWwiOiJ5b2FueGwzMUBnbWFpbC5jb20iLCJqdGkiOiJkNjEyZWY2My0wMWQ4LTQwZjEtODZkMC05ZjJjMzU2OTgyMmQiLCJleHAiOjE3NzE4MDgwNDcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIn0.VnqlZgkfw3Eb4qrwD9iDJNrawKINE3S99Co0xNdIILc
+
+{
+    "name": "TestProduct1",
+    "Description": "TestDescription Yee haw",
+    "Price": 5,
+    "Stock": 100 
+}
+
+### EDIT AN OBJECT BY ID
+PUT http://localhost:5045/api/products/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwiZW1haWwiOiJ5b2FueGwzMUBnbWFpbC5jb20iLCJqdGkiOiJkNjEyZWY2My0wMWQ4LTQwZjEtODZkMC05ZjJjMzU2OTgyMmQiLCJleHAiOjE3NzE4MDgwNDcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIn0.VnqlZgkfw3Eb4qrwD9iDJNrawKINE3S99Co0xNdIILc
+
+{
+    "name": "TestUpdateProduct",
+    "Description": "TestUpdateDescription",
+    "Price": 5,
+    "Stock": 100 
+}
+
+### DELETE A PRODUCT BY ITS ID
+DELETE http://localhost:5045/api/products/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwiZW1haWwiOiJ5b2FueGwzMUBnbWFpbC5jb20iLCJqdGkiOiJkNjEyZWY2My0wMWQ4LTQwZjEtODZkMC05ZjJjMzU2OTgyMmQiLCJleHAiOjE3NzE4MDgwNDcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIn0.VnqlZgkfw3Eb4qrwD9iDJNrawKINE3S99Co0xNdIILc

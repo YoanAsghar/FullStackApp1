@@ -23,13 +23,11 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("Jwt:Issuer not found."),
+        ValidAudience = builder.Configuration["Jwt:Audience"] ?? throw new InvalidOperationException("Jwt:Audience not found."),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key not found.")))
     };
 });
-
-Console.
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<DataContext>(options =>
@@ -39,29 +37,21 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseDefaultFiles();
+app.UseStaticFiles();
+app.UseSwaggerUI();
+app.UseAuthentication();
+app.UseAuthorization();
 
 //
 // App endpoints 
 //
 
-app.MapGet("/", () =>
-{
-    return "Hello world";
-});
 
 ProductEndpoints.Map(app);
 UserEndpoints.Map(app);
-
-//
-// App configuration
-//
-
-app.UseHttpsRedirection();
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-
 
 app.Run();
 

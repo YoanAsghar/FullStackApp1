@@ -8,9 +8,10 @@ namespace Entities
         public string passwordHash { get; set; } = string.Empty;
         public DateOnly Register_date { get; set; }
 
-        public User(int id, string username, string email, string passwordHash, DateOnly Register_date)
+        public User() { }
+
+        public User(string username, string email, string passwordHash, DateOnly Register_date)
         {
-            this.Id = id;
             this.Username = username;
             this.Email = email;
             this.passwordHash = passwordHash;

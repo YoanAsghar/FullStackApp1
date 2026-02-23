@@ -19,33 +19,33 @@ Build a full-stack marketplace application where users can register, log in, lis
     - [X] Hashes the password securely (e.g., BCrypt).
     - [X] Creates a new user in the database.
     - [X] Returns the new user object (without password hash).
-- [ ] **Endpoint:** `POST /api/users/login`
-    - [ ] Accepts `email`, `password`.
-    - [ ] Verifies credentials against the database.
-    - [ ] Generates and returns a JWT on success.
+- [X] **Endpoint:** `POST /api/users/login`
+    - [X] Accepts `email`, `password`.
+    - [X] Verifies credentials against the database.
+    - [X] Generates and returns a JWT on success.
 
 ### Product Management
-- [ ] **Endpoint:** `GET /api/products`
-    - [ ] Publicly accessible.
-    - [ ] Returns a JSON array of all products.
-- [ ] **Endpoint:** `GET /api/products/{id}`
-    - [ ] Publicly accessible.
-    - [ ] Returns a single product object by its ID.
-- [ ] **Endpoint:** `POST /api/products`
-    - [ ] Protected (requires JWT authentication).
-    - [ ] Accepts `name`, `description`, `price`.
-    - [ ] Associates the new product with the logged-in user.
-    - [ ] Returns the newly created product object.
-- [ ] **Endpoint:** `PUT /api/products/{id}`
-    - [ ] Protected (requires JWT authentication).
-    - [ ] Verifies that the logged-in user is the owner of the product.
-    - [ ] Updates the product's `name`, `description`, or `price`.
-    - [ ] Returns the updated product object.
-- [ ] **Endpoint:** `DELETE /api/products/{id}`
-    - [ ] Protected (requires JWT authentication).
-    - [ ] Verifies that the logged-in user is the owner of the product.
-    - [ ] Deletes the product from the database.
-    - [ ] Returns a 204 No Content success status.
+- [X] **Endpoint:** `GET /api/products`
+    - [X] Publicly accessible.
+    - [X] Returns a JSON array of all products.
+- [X] **Endpoint:** `GET /api/products/{id}`
+    - [X] Publicly accessible.
+    - [X] Returns a single product object by its ID.
+- [X] **Endpoint:** `POST /api/products`
+    - [X] Protected (requires JWT authentication).
+    - [X] Accepts `name`, `description`, `price`.
+    - [X] Associates the new product with the logged-in user.
+    - [X] Returns the newly created product object.
+- [X] **Endpoint:** `PUT /api/products/{id}`
+    - [X] Protected (requires JWT authentication).
+    - [X] Verifies that the logged-in user is the owner of the product.
+    - [X] Updates the product's `name`, `description`, or `price`.
+    - [X] Returns the updated product object.
+- [X] **Endpoint:** `DELETE /api/products/{id}`
+    - [X] Protected (requires JWT authentication).
+    - [X] Verifies that the logged-in user is the owner of the product.
+    - [X] Deletes the product from the database.
+    - [X] Returns a 204 No Content success status.
 
 ---
 

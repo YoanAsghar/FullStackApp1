@@ -3,14 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace Routes
 {
     public class UserEndpoints : ControllerBase
     {
-
         public static void Map(WebApplication app)
         {
+            var Configuration = app.Configuration;
             var AuthGroup = app.MapGroup("/api/auth");
             var PasswordHasher = new PasswordHasher<User>();
 
@@ -26,7 +30,7 @@ namespace Routes
                     }
 
                     //Check if it already exists
-                    User UserExists = await db.users.FirstOrDefaultAsync(u => u.Email.ToLower() == newUser.Email.ToLower());
+                    User? UserExists = await db.users.FirstOrDefaultAsync(u => u.Email.ToLower() == newUser.Email.ToLower());
 
                     if (UserExists != null)
                     {
@@ -46,46 +50,68 @@ namespace Routes
                     db.users.Add(newUser);
                     await db.SaveChangesAsync();
 
-
                     return Results.Created($"/api/users/{newUser.Id}", newUser);
                 }
                 catch (Exception ex)
                 {
-                    return Results.Problem($"An error ocurred creating the user {ex}");
+                    return Results.Problem($"An error occurred creating the user: {ex.Message}");
                 }
             });
-
 
             //Login endpoint
             AuthGroup.MapPost("/login", async ([FromBody] User user, DataContext db) =>
             {
                 try
                 {
-                    if (user.Email == null || user.passwordHash == null || user.Username == null)
-                    {
-                        return Results.Unauthorized();
-                    }
-                    User UserFromDb = await db.users.FirstOrDefaultAsync(u => u.Email.ToLower() == user.Email.ToLower());
+                    User? UserFromDb = await db.users.FirstOrDefaultAsync(u => u.Email.ToLower() == user.Email.ToLower());
 
                     if (UserFromDb == null)
                     {
-                        return Results.Unauthorized();
+                        return Results.NotFound("User not found.");
                     }
 
                     var isPasswordCorrect = PasswordHasher.VerifyHashedPassword(UserFromDb, UserFromDb.passwordHash, user.passwordHash);
-                    if (isPasswordCorrect != PasswordVerificationResult.Success)
+                    if (isPasswordCorrect == PasswordVerificationResult.Failed)
                     {
                         return Results.Unauthorized();
                     }
 
-                    return Results.Ok();
+                    // Generate JSON Web Token
+                    var issuer = Configuration["Jwt:Issuer"];
+                    var audience = Configuration["Jwt:Audience"];
+                    var keyString = Configuration["Jwt:Key"];
+
+                    if (string.IsNullOrEmpty(keyString))
+                    {
+                        return Results.Problem("JWT Key is not configured.", statusCode: 500);
+                    }
+
+                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
+                    var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                    var claims = new[]
+                    {
+                        new Claim(JwtRegisteredClaimNames.Sub, UserFromDb.Id.ToString()),
+                        new Claim(JwtRegisteredClaimNames.Email, UserFromDb.Email),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                    };
+
+                    var token = new JwtSecurityToken(
+                       issuer: issuer,
+                       audience: audience,
+                       claims: claims,
+                       expires: DateTime.Now.AddMinutes(60),
+                       signingCredentials: credentials);
+
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+                    return Results.Ok(new { token = tokenString });
                 }
                 catch (Exception ex)
                 {
-                    return Results.Conflict($"Error ocurred login {ex}");
+                    return Results.Problem($"An error occurred during login: {ex.Message}");
                 }
-
-            }).RequireAuthorization();
+            });
         }
     }
 }
