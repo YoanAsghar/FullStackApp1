@@ -1,11 +1,11 @@
 ### Create a New User
-POST http://localhost:5045/api/auth/register
+POST http://localhost:5188/api/auth/register
 Content-Type: application/json
 
 {
     "username": "yoanxl",
     "email": "yoanxl31@gmail.com",
-    "passwordHash": "yqp1rr0d"
+    "passwordHash": "Yqp1rr0d@"
 }
 
 ### Login user
@@ -24,10 +24,10 @@ GET http://localhost:5045/api/products
 ### GET ONE PRODUCT BY ID
 GET http://localhost:5045/api/products/1
 
-### CREATE ONE PRODUCT BY ID
+### CREATE ONE PRODUCT 
 POST http://localhost:5045/api/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwiZW1haWwiOiJ5b2FueGwzMUBnbWFpbC5jb20iLCJqdGkiOiJkNjEyZWY2My0wMWQ4LTQwZjEtODZkMC05ZjJjMzU2OTgyMmQiLCJleHAiOjE3NzE4MDgwNDcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIn0.VnqlZgkfw3Eb4qrwD9iDJNrawKINE3S99Co0xNdIILc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwiZW1haWwiOiJ5b2FueGwzMUBnbWFpbC5jb20iLCJqdGkiOiIxNDFmNDg2ZS1hOGNhLTRjMWEtYjg1Zi0wYmY2YmI5ODNkNmYiLCJleHAiOjE3NzE5ODcwOTgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIn0.BW4bf7YpEL5E7sRQq9I9dd006wdHEqJ8EXcrsgeV6RA
 
 {
     "name": "TestProduct1",
@@ -37,9 +37,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwiZW1ha
 }
 
 ### EDIT AN OBJECT BY ID
-PUT http://localhost:5045/api/products/1
+PUT http://localhost:5045/api/products/5
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwiZW1haWwiOiJ5b2FueGwzMUBnbWFpbC5jb20iLCJqdGkiOiJkNjEyZWY2My0wMWQ4LTQwZjEtODZkMC05ZjJjMzU2OTgyMmQiLCJleHAiOjE3NzE4MDgwNDcsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIn0.VnqlZgkfw3Eb4qrwD9iDJNrawKINE3S99Co0xNdIILc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1IiwiZW1haWwiOiJ5b2FueGwzMUBnbWFpbC5jb20iLCJqdGkiOiIxNDFmNDg2ZS1hOGNhLTRjMWEtYjg1Zi0wYmY2YmI5ODNkNmYiLCJleHAiOjE3NzE5ODcwOTgsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjUwMDEiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo1MDAxIn0.BW4bf7YpEL5E7sRQq9I9dd006wdHEqJ8EXcrsgeV6RA
 
 {
     "name": "TestUpdateProduct",
